@@ -50,6 +50,9 @@ $(document).ready(function(){
 		m_y = event.pageY;
 		mouse.move(m_x,m_y);
 		mouse.draw();
+		$.get('socketFunctions/sendMousePos.php',{'m_x':m_x,'m_y':m_y},function(data){
+			console.log(data);
+		})
 	})
 });
 
