@@ -51,9 +51,15 @@ $(document).ready(function(){
 		mouse.move(m_x,m_y);
 		mouse.draw();
 		$.get('socketFunctions/sendMousePos.php',{'m_x':m_x,'m_y':m_y},function(data){
-			console.log(data);
+
 		})
-	})
+	});
+	//17 MS for 60 FPS, 34 for 30FPS
+	window.setInterval(function(){
+		$.get('socketFunctions/getMousePos.php',function(data){
+			console.log(data);
+		});
+	},17);
 });
 
 </script>
