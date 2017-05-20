@@ -8,6 +8,7 @@ $host = $_SESSION['host'];
 
 include '../secure.php';
 include '../cursor.php';
+include 'speedTest.php';
 
 
 
@@ -38,6 +39,8 @@ include '../cursor.php';
 
 <script>
 
+var timer = new Speed();
+
 var clients = [];
 //mice will look like {user1:MouseObj,user2:MouseObj}
 var client_mice = {};
@@ -45,37 +48,46 @@ var m_x = 0;
 var m_y = 0;
 var mouse = new Mouse('mouse-<?php echo $user_id; ?>',0,0,'black');
 
+var last_move = 0;
+
 $(document).ready(function(){
 	$(document).mousemove(function(event){
 		m_x = event.pageX;
 		m_y = event.pageY;
 		mouse.move(m_x,m_y);
 		mouse.draw();
-		$.get('socketFunctions/sendMousePos.php',{'m_x':m_x,'m_y':m_y},function(data){
-
-		})
+		var delta = now() - last_move;
+		if (delta > 34){
+			$.get('socketFunctions/sendMousePos.php',{'m_x':m_x,'m_y':m_y});
+			last_move = now();
+		}
 	});
 	//17 MS for 60 FPS, 34 for 30FPS
 	window.setInterval(function(){
 		$.get('socketFunctions/getMousePos.php',function(data){
-			console.log(data);
-			if (typeof data != "undefined"){
-				parseCmd(data);
-			}
+			parseCmd(data);
+
 		});
 	},34);
 });
 
 function parseCmd(cmd){
 	cmds = cmd.split("$");
+	timer.tic();
 	for (var i = 0; i < cmds.length; i++){
 		var command = cmds[i].split(":");
 		cmd = command[0];
 		var object = command[1];
 		var user = command[2];
-		var params = ((params)?command[3].split(","):"");
+		if (typeof command[3] != "undefined"){
+			var params = command[3].split(',');
+		}
+		else {
+			var params = "";
+		}
 
 		if (cmd == "mouseCoords"){
+			console.log(params);
 			if (client_mice.hasOwnProperty(user) == false){
 				client_mice[user] = new Mouse('mouse-'+user,params[0],params[1],'green');
 				client_mice[user].draw();
@@ -85,6 +97,7 @@ function parseCmd(cmd){
 			}
 		}
 	}
+	console.log(timer.toc());
 }
 
 </script>
