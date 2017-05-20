@@ -46,6 +46,10 @@ var clients = [];
 var client_mice = {};
 var m_x = 0;
 var m_y = 0;
+
+var fps = 24;
+var ms = Math.ceil(1000/fps);
+
 var mouse = new Mouse('mouse-<?php echo $user_id; ?>',0,0,'black');
 
 var last_move = 0;
@@ -57,7 +61,7 @@ $(document).ready(function(){
 		mouse.move(m_x,m_y);
 		mouse.draw();
 		var delta = now() - last_move;
-		if (delta > 34){
+		if (delta > ms){
 			$.get('socketFunctions/sendMousePos.php',{'m_x':m_x,'m_y':m_y});
 			last_move = now();
 		}
@@ -68,7 +72,7 @@ $(document).ready(function(){
 			parseCmd(data);
 
 		});
-	},34);
+	},ms);
 });
 
 function parseCmd(cmd){
