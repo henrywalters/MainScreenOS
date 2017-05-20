@@ -39,7 +39,8 @@ include '../cursor.php';
 <script>
 
 var clients = [];
-var client_mice = [];
+//mice will look like {user1:MouseObj,user2:MouseObj}
+var client_mice = {};
 var m_x = 0;
 var m_y = 0;
 var mouse = new Mouse('mouse-<?php echo $user_id; ?>',0,0,'black');
@@ -58,9 +59,33 @@ $(document).ready(function(){
 	window.setInterval(function(){
 		$.get('socketFunctions/getMousePos.php',function(data){
 			console.log(data);
+			if (typeof data != "undefined"){
+				parseCmd(data);
+			}
 		});
-	},17);
+	},34);
 });
+
+function parseCmd(cmd){
+	cmds = cmd.split("$");
+	for (var i = 0; i < cmds.length; i++){
+		var command = cmds[i].split(":");
+		cmd = command[0];
+		var object = command[1];
+		var user = command[2];
+		var params = ((params)?command[3].split(","):"");
+
+		if (cmd == "mouseCoords"){
+			if (client_mice.hasOwnProperty(user) == false){
+				client_mice[user] = new Mouse('mouse-'+user,params[0],params[1],'green');
+				client_mice[user].draw();
+			} else {
+				client_mice[user].move(parseInt(params[0]),parseInt(params[1]));
+				client_mice[user].draw();
+			}
+		}
+	}
+}
 
 </script>
 
