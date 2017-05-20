@@ -1,8 +1,3 @@
-<html>
-<body>
-<div id= "cursor"> </div>
-</body>
-</html>
 
 <script
   src="https://code.jquery.com/jquery-3.2.1.js"
@@ -37,10 +32,5 @@ Mouse.prototype.draw = function(){
 	$('#' + this.id).html(this.html);
 }
 
-var mouse = new Mouse('mouse', 0, 0);
-
-var x = 0;
-var y = 0;
-var counter = 0;
 
 </script>
