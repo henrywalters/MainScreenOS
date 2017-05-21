@@ -143,7 +143,7 @@ $(document).ready(function(){
 		console.log(id);
 
 		if (id.indexOf('compiler') != -1 && event.keyCode != 13){
-			var code = focused.val().split('\n').join('~').split(',').join('{comma}');
+			var code = focused.val().split('\n').join('~').split(',').join('{comma}').split('$').join('{money}');
 			$.get('socketFunctions/updateCompilerCode.php',{'code':code,'compiler_id':id});
 		}
 	});
@@ -292,14 +292,14 @@ function parseCmd(cmd){
 
 		if (cmd == 'updateCompiler'){
 			console.log(command);
-			var code = ((params[0])?params[0]:"");
+			var code = params[0];
 			$('#' + object + '-code').html(code.split('{comma}').join(',').split('~').join('\n'));
 			//$('#' + object + '-code').focus();
 			
 		}
 
 		if (cmd == 'compileJs'){
-			compileJS(params[0].split('{comma}').join(',').split('~').join('\n'));
+			compileJS(params[0].split('{money}').join('$').split('{comma}').join(',').split('~').join('\n'));
 		}
 	}
 }
