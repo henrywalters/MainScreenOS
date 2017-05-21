@@ -202,7 +202,7 @@ function parseCmd(cmd){
 
 		if (cmd == 'openForm'){
 			if (params[0].indexOf('terminal') != -1){
-				console.log(params[0]);
+				console.log(command);
 				terminals.push(new Form(params[0],300,300,"Terminal", 150,350,'green'));
 				terminals[terminal_count].draw();
 				new TextInput(params[0], params[0] + '-input', 'width:auto;background-color:green;border:0px solid black;position:relative','Shared:~/',params[0] + '-label','position:relative;top:80px');
@@ -235,6 +235,7 @@ function parseCmd(cmd){
 		}
 
 		if (cmd == 'writeTerminal'){
+			console.log("working");
 			$('#' + object + "-input").html(params[0]);
 		}
 	}
