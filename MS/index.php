@@ -46,7 +46,7 @@ var client_mice = {};
 var m_x = 0;
 var m_y = 0;
 
-var fps = 15;
+var fps = 60;
 var ms = Math.ceil(1000/fps);
 console.log(ms);
 
