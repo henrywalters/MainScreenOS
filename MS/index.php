@@ -96,7 +96,7 @@ $(document).ready(function(){
 		});
 	},ms)
 
-	$(document).keydown(function(event){
+	$(document).keyup(function(event){
 		var focused = $(':focus');
 		var id = focused.attr('id').split('-');
 		id = id[0] + '-' + id[1];
@@ -139,7 +139,7 @@ $(document).ready(function(){
 		if (id.indexOf('compiler') != -1){
 			var code = focused.val();
 			console.log(id);
-			$.get('socketFunctions/updateCompilerCode.php',{'code':code.replace('\n','~'),'compiler_id':id});
+			$.get('socketFunctions/updateCompilerCode.php',{'code':code.replace('\n','~').replace('\r','%'),'compiler_id':id});
 		}
 	});
 
@@ -252,7 +252,8 @@ function parseCmd(cmd){
 
 
 		if (cmd == 'updateCompiler'){
-			$('#' + object + '-code').html(params[0].replace('~','\n'));
+			console.log(command);
+			$('#' + object + '-code').html(params[0].replace('~','\n').replace('%','\r'));
 			$('#' + object + '-code').focus();
 			
 		}
