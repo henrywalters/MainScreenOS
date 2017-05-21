@@ -24,12 +24,15 @@ include 'speedTest.php';
 
 <body>
 	<div id='OS'>
+		<div id='ProgramMenu'>
+
+		</div>
 	</div>
 </body>
 
 <footer>
 	<div id='taskbar'>
-
+		<div id='ProgramMenuIcon' class='togglable' style='height:100%;width:50px;background-color:gray' onclick='toggleProgramMenu()'></div>
 	</div>
 </footer>
 
@@ -73,7 +76,20 @@ $(document).ready(function(){
 
 		});
 	},ms);
+
+
 });
+
+function toggleProgramMenu(){
+	console.log("clicked");
+	var menu = $('#ProgramMenu');
+	if (menu.css('display') == 'none'){
+		menu.css('display','block');
+	} else {
+		menu.css('display','none');
+	}
+}
+
 
 function parseCmd(cmd){
 	cmds = cmd.split("$");
@@ -107,17 +123,29 @@ function parseCmd(cmd){
 
 <style>
 
-* {cursor: none;}
 
 #OS{
 	height:95%;
 	width:100%;
+	position:relative;
+}
+
+#ProgramMenu{
+	bottom:0;
+	border:1px solid black;
+	height:300px;
+	width:200px;
+	position:absolute;
 }
 
 #taskbar{
 	height:5%;
 	width:100%;
 	background-color:#c4c4c4;
+}
+
+.hoverIcon:hover{
+	background-color:#2d2d2d;
 }
 
 </style>
