@@ -75,6 +75,9 @@ $(document).ready(function(){
 			parseCmd(data);
 
 		});
+		$.get('socketFunctions/readCommands.php',function(data){
+			parseCmd(data);
+		});
 	},ms);
 
 
@@ -117,6 +120,8 @@ function parseCmd(cmd){
 				//client_mice[user].draw();
 			}
 		}
+
+		console.log(cmd);
 	}
 }
 
