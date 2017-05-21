@@ -47,7 +47,7 @@ var client_mice = {};
 var m_x = 0;
 var m_y = 0;
 
-var fps = 24;
+var fps = 15;
 var ms = Math.ceil(1000/fps);
 
 var mouse = new Mouse('mouse-<?php echo $user_id; ?>',0,0,'black');
