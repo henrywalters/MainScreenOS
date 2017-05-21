@@ -96,7 +96,7 @@ $(document).ready(function(){
 		});
 	},ms)
 
-	$(document).keyup(function(event){
+	$(document).keydown(function(event){
 		var focused = $(':focus');
 		var id = focused.attr('id').split('-');
 		id = id[0] + '-' + id[1];
@@ -252,12 +252,9 @@ function parseCmd(cmd){
 
 
 		if (cmd == 'updateCompiler'){
-			console.log(command);
-			console.log(params[0],'#' + command[1] + '-code');
-			if (params[0].replace('~','\n') != $('#' + object + '-code').html()){
-				$('#' + object + '-code').html(params[0].replace('~','\n'));
-				$('#' + object + '-code').focus();
-			}
+			$('#' + object + '-code').html(params[0].replace('~','\n'));
+			$('#' + object + '-code').focus();
+			
 		}
 	}
 }
