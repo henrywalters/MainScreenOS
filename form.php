@@ -31,12 +31,12 @@ function TextInput(container,id,style,label, label_id, label_style){
 	$('#'+this.container).append(this.html);
 }
 
-function TextArea(container,id,style){
+function TextArea(container,id,style,value){
 	this.container = container;
 	this.id = id;
 	this.style = style;
 
-	this.html = "<textarea id='" + this.id + "' style='position:relative;" + this.style + "' ></textarea>";
+	this.html = "<textarea spellcheck='false' id='" + this.id + "' style='position:relative;" + this.style + "' >" + value + "</textarea>";
 
 	$('#' + this.container).append(this.html);
 }
@@ -48,6 +48,11 @@ function Button(container,id,style,label){
 
 	this.html = "<button id='" + this.id + "' style='" + this.style + "' onclick=compile('" + this.id + "')>" + label + "</button>";
 
+	$('#' + container).append(this.html);
+}
+
+function IFrame(container,id,style,hr){
+	this.html = "<iframe src='" + hr + "' id='" + id + "' style='" + style + "'></iframe>";
 	$('#' + container).append(this.html);
 }
 </script>

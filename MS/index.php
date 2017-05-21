@@ -17,6 +17,7 @@ include '../form.php';
 
 <html>
 <head>
+
 <script
   src="https://code.jquery.com/jquery-3.2.1.js"
   integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
@@ -29,6 +30,7 @@ include '../form.php';
 		<div id='ProgramMenu'>
 			<div class='ProgramMenuItem' id='ProgramMenuTerminal' onclick='openTerminal()'><h3>Terminal</h3></div>
 			<div class='ProgramMenuItem' id='ProgramMenuTerminal' onclick='openCoCompiler()'><h3>CoCompile</h3></div>
+			<!--<div class='ProgramMenuItem' id='ProgramMenuTerminal' onclick='openJs()'><h3>CoWebScript</h3></div>-->
 		</div>
 	</div>
 </body>
@@ -43,6 +45,8 @@ include '../form.php';
 
 
 <script>
+
+
 
 var timer = new Speed();
 
@@ -100,11 +104,13 @@ $(document).ready(function(){
 		var focused = $(':focus');
 		var id = focused.attr('id').split('-');
 		id = id[0] + '-' + id[1];
-		$.get('socketFunctions/writeTerminal.php',{'terminal_id':id,'query':focused.val()});
+		
 
 		if (event.keyCode == 13 && id.indexOf('terminal') != -1){
+			console.log("terminal");
 			var val = focused.val();
 			var p = val.split(' ');
+			$.get('socketFunctions/writeTerminal.php',{'terminal_id':id,'query':focused.val()});
 			if (p.length == 2 && (p[0] == 'cd' || p[0] == 'mkdir' || p[0] == 'ls')){
 				var folder = p[1].split('/');
 				var parent_path = [];
@@ -136,14 +142,25 @@ $(document).ready(function(){
 		}
 		console.log(id);
 
-		if (id.indexOf('compiler') != -1){
-			var code = focused.val();
-			console.log(id);
-			$.get('socketFunctions/updateCompilerCode.php',{'code':code.replace('\n','~').replace('\r','%'),'compiler_id':id});
+		if (id.indexOf('compiler') != -1 && event.keyCode != 13){
+			var code = focused.val().split('\n').join('~').split(',').join('{comma}');
+			$.get('socketFunctions/updateCompilerCode.php',{'code':code,'compiler_id':id});
 		}
 	});
 
 });
+
+function compileJS(script){
+	frames[0].window.eval(code);
+}
+
+function compile(comp_id){
+	comp_id = comp_id.split('-');
+	comp_id = comp_id[0] + '-' + comp_id[1];
+	//console.log(comp_id)
+	var code = $('#' + comp_id + '-code').val();
+	$.get('socketFunctions/compileJs.php',{'object_id':comp_id,'code':code});
+}
 
 function toggleProgramMenu(){
 	console.log("clicked");
@@ -166,6 +183,8 @@ function openCoCompiler(){
 	$.get('socketFunctions/openForm',{'form_id':'compiler-' + compiler_count});
 	
 }
+
+
 
 function closeForm(form_id){
 	$.get('socketFunctions/closeForm',{'form_id':form_id});
@@ -219,12 +238,32 @@ function parseCmd(cmd){
 			}
 
 			if (params[0].indexOf('compiler') != -1){
-				compilers.push(new Form(params[0],400,100,"CoCompiler",400,350,"white"));
+				compilers.push(new Form(params[0],400,20,"CoCompiler",500,900,"white"));
 				console.log(params[0]);
 				
 				compilers[compiler_count].draw();
-				new TextArea (params[0],params[0] + '-code','width:90%;margin-left:5%;height:80%;bottom:40px');
-				new Button (params[0],params[0] + '-compile','position:relative;text-align:center;bottom:30px;left:150px','compile');
+				new TextArea (params[0],params[0] + '-code','width:400px;height:400px;bottom:3px;display:inline;left:25px');
+				new TextArea (params[0],params[0] + '-console','width:405px;height:116px;bottom:-38px;left:54px;');
+				new IFrame(params[0],params[0] + '-iframe','width:400px;position:relative;bottom:402px;height:289px;left:454px;display:block','compilePage.php');
+				new Button (params[0],params[0] + '-compile','position:relative;text-align:center;bottom:283px;left:315px;text-align:center;display:block;width:80px','compile');
+				$(document).delegate('#' + params + '-code', 'keydown', function(e) {
+				  var keyCode = e.keyCode || e.which;
+
+				  if (keyCode == 9) {
+				    e.preventDefault();
+				    var start = $(this).get(0).selectionStart;
+				    var end = $(this).get(0).selectionEnd;
+
+				    // set textarea value to: text before caret + tab + text after caret
+				    $(this).val($(this).val().substring(0, start)
+				                + "\t"
+				                + $(this).val().substring(end));
+
+				    // put caret at right position again
+				    $(this).get(0).selectionStart =
+				    $(this).get(0).selectionEnd = start + 1;
+				  }
+				});
 				compiler_count += 1;
 			}
 		}
@@ -253,9 +292,14 @@ function parseCmd(cmd){
 
 		if (cmd == 'updateCompiler'){
 			console.log(command);
-			$('#' + object + '-code').html(params[0].replace('~','\n').replace('%','\r'));
-			$('#' + object + '-code').focus();
+			var code = ((params[0])?params[0]:"");
+			$('#' + object + '-code').html(code.split('{comma}').join(',').split('~').join('\n'));
+			//$('#' + object + '-code').focus();
 			
+		}
+
+		if (cmd == 'compileJs'){
+			compileJS(params[0].split('{comma}').join(',').split('~').join('\n'));
 		}
 	}
 }
@@ -308,5 +352,7 @@ h3 {
 textarea {
    resize: none;
 }
+
+
 
 </style>
