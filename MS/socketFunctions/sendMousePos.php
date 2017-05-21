@@ -1,7 +1,8 @@
 <?php
 session_start();
 $PORT = $_SESSION['port']; //the port on which we are connecting to the "remote" machine
-$HOST = "141.217.175.129";//$_GET['host']; //the ip of the remote machine (in this case it's the same machine)
+$HOST='10.0.0.18';
+//$HOST = "141.217.175.129";//$_GET['host']; //the ip of the remote machine (in this case it's the same machine)
 $user_id = $_SESSION['user_id'];
 
 $m_x = $_GET['m_x'];
@@ -9,7 +10,6 @@ $m_y = $_GET['m_y'];
 
 
 $text = "sendMouseCoords:null:{$user_id}:{$m_x},{$m_y}";
-
 
 
 $sock = socket_create(AF_INET, SOCK_STREAM, 0) //Creating a TCP socket

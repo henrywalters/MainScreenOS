@@ -11,7 +11,6 @@ include '../cursor.php';
 include 'speedTest.php';
 
 
-
 ?>
 
 
@@ -49,6 +48,7 @@ var m_y = 0;
 
 var fps = 15;
 var ms = Math.ceil(1000/fps);
+console.log(ms);
 
 var mouse = new Mouse('mouse-<?php echo $user_id; ?>',0,0,'black');
 
@@ -91,7 +91,6 @@ function parseCmd(cmd){
 		}
 
 		if (cmd == "mouseCoords"){
-			console.log(params);
 			if (client_mice.hasOwnProperty(user) == false){
 				client_mice[user] = new Mouse('mouse-'+user,params[0],params[1],'green');
 				client_mice[user].draw();
@@ -101,7 +100,6 @@ function parseCmd(cmd){
 			}
 		}
 	}
-	console.log(timer.toc());
 }
 
 </script>
