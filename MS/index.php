@@ -124,11 +124,11 @@ function parseCmd(cmd){
 		}
 
 		if (cmd == "open"){
-			console.log(cmds);
+			$('#' + object).show();
 		} 
 
 		if (cmd == "close"){
-			console.log(cmds);
+			$('#' + object).hide();
 		}
 	}
 }
