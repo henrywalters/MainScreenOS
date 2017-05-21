@@ -134,11 +134,12 @@ $(document).ready(function(){
 			}
 			
 		}
-
+		console.log(id);
 
 		if (id.indexOf('compiler') != -1){
 			var code = focused.val();
-			$.get('socketFunctions/updateCompilerCode.php',{'code':code,'comp_id':id});
+			console.log(id);
+			$.get('socketFunctions/updateCompilerCode.php',{'code':code.replace('\n','~'),'compiler_id':id});
 		}
 	});
 
@@ -251,8 +252,10 @@ function parseCmd(cmd){
 
 
 		if (cmd == 'updateCompiler'){
-			if (params[0] != $('#' + object + '-code').html()){
-				$('#' + object + '-code').html(params[0]);
+			console.log(command);
+			console.log(params[0],'#' + command[1] + '-code');
+			if (params[0].replace('~','\n') != $('#' + object + '-code').html()){
+				$('#' + object + '-code').html(params[0].replace('~','\n'));
 				$('#' + object + '-code').focus();
 			}
 		}
