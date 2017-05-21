@@ -151,7 +151,7 @@ $(document).ready(function(){
 });
 
 function compileJS(script){
-	frames[0].window.eval(code);
+	frames[0].window.eval(script);
 }
 
 function compile(comp_id){
