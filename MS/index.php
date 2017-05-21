@@ -46,7 +46,7 @@ var client_mice = {};
 var m_x = 0;
 var m_y = 0;
 
-var fps = 30;
+var fps = 60;
 var ms = Math.ceil(1000/fps);
 console.log(ms);
 
@@ -59,7 +59,7 @@ $(document).ready(function(){
 		m_x = event.pageX;
 		m_y = event.pageY;
 		mouse.move(m_x,m_y);
-		mouse.draw();
+		//mouse.draw();
 		var delta = now() - last_move;
 		if (delta > ms){
 			$.get('socketFunctions/sendMousePos.php',{'m_x':m_x,'m_y':m_y});
@@ -93,10 +93,10 @@ function parseCmd(cmd){
 		if (cmd == "mouseCoords"){
 			if (client_mice.hasOwnProperty(user) == false){
 				client_mice[user] = new Mouse('mouse-'+user,params[0],params[1],'green');
-				client_mice[user].draw();
+				//client_mice[user].draw();
 			} else {
 				client_mice[user].move(parseInt(params[0]),parseInt(params[1]));
-				client_mice[user].draw();
+				//client_mice[user].draw();
 			}
 		}
 	}
