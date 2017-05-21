@@ -96,6 +96,8 @@ $(document).ready(function(){
 		});
 	},ms)
 
+
+
 });
 
 function toggleProgramMenu(){
@@ -124,11 +126,17 @@ function closeForm(form_id){
 	$.get('socketFunctions/closeForm',{'form_id':form_id});
 }
 
+function updateTextInput(input_id){
+	var input = $('#' + input_id).val();
+	console.log(input);
+}
+
 function parseCmd(cmd){
 	cmds = cmd.split("$");
 	timer.tic();
 	for (var i = 0; i < cmds.length; i++){
-		var command = cmds[i].split(":");
+		var command = cmds[i].slice(0,cmds[i].length).split(":");
+
 		cmd = command[0];
 		var object = command[1];
 		var user = command[2];
@@ -159,10 +167,11 @@ function parseCmd(cmd){
 
 		if (cmd == 'openForm'){
 			if (params[0].indexOf('terminal') != -1){
-				console.log(cmds);
+				console.log(params[0]);
 				terminals.push(new Form(params[0],300,300,"Terminal", 150,350,'green'));
 				terminals[terminal_count].draw();
 				new TextInput(params[0], params[0] + '-input', 'width:80%;background-color:green;border:0px solid black;position:relative','Shared:~/','position:relative;top:80px');
+				new TextArea(params[0],params[0] + '-output', 'width:90%;margin-left:5%;background-color:green;border:0px solid black;height:97px;bottom:55px');
 				$('#' + params[0] + "-input").focus();
 				terminal_count += 1;
 			}
@@ -233,5 +242,12 @@ function parseCmd(cmd){
 
 input:focus {outline:0;}
 
+h3 {
+	font:console;
+}
+
+textarea {
+   resize: none;
+}
 
 </style>

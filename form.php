@@ -26,12 +26,18 @@ function TextInput(container,id,style,label, label_style){
 	this.style = style;
 
 
-	this.html = "<label for='" + this.id + "' style='" + label_style +"'>" + label + "&nbsp;<input class='textInput' type='text' id='" + this.id + "' style='" + this.style + "'>";
+	this.html = "<label for='" + this.id + "' style='" + label_style +"'>" + label + "&nbsp;<input class='textInput' type='text' id='" + this.id + "' style='" + this.style + "' onkeyup=updateTextInput('" + this.id + "')>";
 
 	$('#'+this.container).append(this.html);
 }
 
 function TextArea(container,id,style){
-	
+	this.container = container;
+	this.id = id;
+	this.style = style;
+
+	this.html = "<textarea id='" + this.id + "' style='position:relative;" + this.style + "' onkeyup=updateTextArea('" + this.id + "')></textarea>";
+
+	$('#' + this.container).append(this.html);
 }
 </script>
