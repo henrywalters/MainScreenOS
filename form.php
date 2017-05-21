@@ -36,7 +36,7 @@ function TextArea(container,id,style){
 	this.id = id;
 	this.style = style;
 
-	this.html = "<textarea id='" + this.id + "' style='position:relative;" + this.style + "' onkeyup=updateTextArea('" + this.id + "')></textarea>";
+	this.html = "<textarea id='" + this.id + "' style='position:relative;" + this.style + "' ></textarea>";
 
 	$('#' + this.container).append(this.html);
 }

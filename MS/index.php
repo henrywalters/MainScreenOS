@@ -102,7 +102,7 @@ $(document).ready(function(){
 
 		$.get('socketFunctions/writeTerminal.php',{'terminal_id':id,'query':focused.val()});
 
-		if (event.keyCode == 13){
+		if (event.keyCode == 13 && id.indexOf('terminal') != -1){
 			var val = focused.val();
 			var p = val.split(' ');
 			if (p.length == 2 && (p[0] == 'cd' || p[0] == 'mkdir' || p[0] == 'ls')){
@@ -133,6 +133,12 @@ $(document).ready(function(){
 				});
 			}
 			
+		}
+
+
+		if (id.indexOf('compiler') != -1){
+			var code = focused.val();
+			$.get('socketFunctions/updateCompilerCode.php',{'code':code,'comp_id':id});
 		}
 	});
 
@@ -241,6 +247,11 @@ function parseCmd(cmd){
 		if (cmd == 'writeTerminal'){
 			console.log("working");
 			$('#' + object + "-input").html(params[0]);
+		}
+
+
+		if (cmd == 'updateCompiler'){
+			console.log("updating");
 		}
 	}
 }
