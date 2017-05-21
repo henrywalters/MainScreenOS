@@ -20,13 +20,13 @@ Form.prototype.draw = function(){
 }
 
 
-function TextInput(container,id,style,label, label_style){
+function TextInput(container,id,style,label, label_id, label_style){
 	this.container = container;
 	this.id = id;
 	this.style = style;
 
 
-	this.html = "<label for='" + this.id + "' style='" + label_style +"'>" + label + "&nbsp;<input class='textInput' type='text' id='" + this.id + "' style='" + this.style + "' onkeyup=updateTextInput('" + this.id + "')>";
+	this.html = "<label for='" + this.id + "' style='" + label_style +"' id='" + label_id + "'>" + label + "&nbsp;<input class='textInput' type='text' id='" + this.id + "' style='" + this.style + "'>";
 
 	$('#'+this.container).append(this.html);
 }

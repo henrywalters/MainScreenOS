@@ -96,7 +96,45 @@ $(document).ready(function(){
 		});
 	},ms)
 
+	$(document).keyup(function(event){
+		var focused = $(':focus');
+		var id = focused.attr('id').split('-');
 
+		$.get('socketFunctions/writeTerminal.php',{'terminal_id':id,'query':focused.val()});
+
+		if (event.keyCode == 13){
+			var val = focused.val();
+			var p = val.split(' ');
+			if (p.length == 2 && (p[0] == 'cd' || p[0] == 'mkdir' || p[0] == 'ls')){
+				var folder = p[1].split('/');
+				var parent_path = [];
+				var parent = "";
+				var folderName = folder[folder.length-1];
+				
+				id = id[0] + '-' + id[1];
+				for (var i = 0; i < folder.length-1; i++){
+					if (folder[i] != ""){
+						parent_path.push(folder[i]);
+					}
+				}
+				$.get('socketFunctions/fileManager.php',{'parent_path':parent_path.join('/'),'folder_name':folderName,'file_cmd':p[0],'object_id':id},function(data){
+					console.log(data);
+					if (data == "true"){
+						if (p[0] == 'cd'){
+							var label = $('#' + id + '-label').html().split('~');
+							var html = $('#' + id + '-label').html();
+							html = html.slice(html.indexOf('<'));
+							var new_label = label[0] + '~' + parent_path.join('/') + '/' + folderName + '/';
+							
+							$('#' + id + '-label').html(new_label+html);
+							$('#' + id).focus();
+						}
+					}
+				});
+			}
+			
+		}
+	});
 
 });
 
@@ -126,10 +164,7 @@ function closeForm(form_id){
 	$.get('socketFunctions/closeForm',{'form_id':form_id});
 }
 
-function updateTextInput(input_id){
-	var input = $('#' + input_id).val();
-	console.log(input);
-}
+
 
 function parseCmd(cmd){
 	cmds = cmd.split("$");
@@ -170,7 +205,7 @@ function parseCmd(cmd){
 				console.log(params[0]);
 				terminals.push(new Form(params[0],300,300,"Terminal", 150,350,'green'));
 				terminals[terminal_count].draw();
-				new TextInput(params[0], params[0] + '-input', 'width:80%;background-color:green;border:0px solid black;position:relative','Shared:~/','position:relative;top:80px');
+				new TextInput(params[0], params[0] + '-input', 'width:auto;background-color:green;border:0px solid black;position:relative','Shared:~/',params[0] + '-label','position:relative;top:80px');
 				new TextArea(params[0],params[0] + '-output', 'width:90%;margin-left:5%;background-color:green;border:0px solid black;height:97px;bottom:55px');
 				$('#' + params[0] + "-input").focus();
 				terminal_count += 1;
@@ -197,6 +232,10 @@ function parseCmd(cmd){
 				compilers.pop(index);
 				compiler_count -= 1;
 			}
+		}
+
+		if (cmd == 'writeTerminal'){
+			$('#' + object + "-input").html(params[0]);
 		}
 	}
 }
