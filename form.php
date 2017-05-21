@@ -40,4 +40,14 @@ function TextArea(container,id,style){
 
 	$('#' + this.container).append(this.html);
 }
+
+function Button(container,id,style,label){
+	this.container = container;
+	this.id = id;
+	this.style = style;
+
+	this.html = "<button id='" + this.id + "' style='" + this.style + "' onclick=compile('" + this.id + "')>" + label + "</button>";
+
+	$('#' + container).append(this.html);
+}
 </script>

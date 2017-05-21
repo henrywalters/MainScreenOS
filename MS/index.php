@@ -199,10 +199,10 @@ function parseCmd(cmd){
 		if (cmd == "close"){
 			$('#' + object).hide();
 		}
-
+		if (cmd != "mouseCoords" && cmd.length == 4){console.log(command);}
 		if (cmd == 'openForm'){
 			if (params[0].indexOf('terminal') != -1){
-				console.log(command);
+				
 				terminals.push(new Form(params[0],300,300,"Terminal", 150,350,'green'));
 				terminals[terminal_count].draw();
 				new TextInput(params[0], params[0] + '-input', 'width:auto;background-color:green;border:0px solid black;position:relative','Shared:~/',params[0] + '-label','position:relative;top:80px');
@@ -213,7 +213,11 @@ function parseCmd(cmd){
 
 			if (params[0].indexOf('compiler') != -1){
 				compilers.push(new Form(params[0],400,100,"CoCompiler",400,350,"white"));
+				console.log(params[0]);
+				
 				compilers[compiler_count].draw();
+				new TextArea (params[0],params[0] + '-code','width:90%;margin-left:5%;height:80%;bottom:40px');
+				new Button (params[0],params[0] + '-compile','position:relative;text-align:center;bottom:30px;left:150px','compile');
 				compiler_count += 1;
 			}
 		}
