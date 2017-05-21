@@ -99,7 +99,7 @@ $(document).ready(function(){
 	$(document).keyup(function(event){
 		var focused = $(':focus');
 		var id = focused.attr('id').split('-');
-
+		id = id[0] + '-' + id[1];
 		$.get('socketFunctions/writeTerminal.php',{'terminal_id':id,'query':focused.val()});
 
 		if (event.keyCode == 13 && id.indexOf('terminal') != -1){
@@ -111,7 +111,7 @@ $(document).ready(function(){
 				var parent = "";
 				var folderName = folder[folder.length-1];
 				
-				id = id[0] + '-' + id[1];
+				
 				for (var i = 0; i < folder.length-1; i++){
 					if (folder[i] != ""){
 						parent_path.push(folder[i]);
@@ -251,7 +251,10 @@ function parseCmd(cmd){
 
 
 		if (cmd == 'updateCompiler'){
-			console.log("updating");
+			if (params[0] != $('#' + object + '-code').html()){
+				$('#' + object + '-code').html(params[0]);
+				$('#' + object + '-code').focus();
+			}
 		}
 	}
 }
