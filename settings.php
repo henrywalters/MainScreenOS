@@ -6,6 +6,6 @@ $settings = array(
 	'wsu' => '141.217.175.129' 
 );
 
-$def_host = $settings['wsu'];
+$def_host = $settings['host_henry_local'];
 
 ?>
