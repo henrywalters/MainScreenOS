@@ -96,10 +96,6 @@ $(document).ready(function(){
 		});
 	},ms)
 
-
-	$('.container').click(function(event){
-		console.log(event);
-	});
 });
 
 function toggleProgramMenu(){
@@ -125,7 +121,7 @@ function openCoCompiler(){
 }
 
 function closeForm(form_id){
-	console.log("workin");
+	$.get('socketFunctions/closeForm',{'form_id':form_id});
 }
 
 function parseCmd(cmd){
@@ -163,15 +159,32 @@ function parseCmd(cmd){
 
 		if (cmd == 'openForm'){
 			if (params[0].indexOf('terminal') != -1){
+				console.log(cmds);
 				terminals.push(new Form(params[0],300,300,"Terminal", 150,350,'green'));
 				terminals[terminal_count].draw();
 				terminal_count += 1;
 			}
 
 			if (params[0].indexOf('compiler') != -1){
-				compilers.push(new Form(params[0],300,300,"CoCompiler",400,350,"white"));
+				compilers.push(new Form(params[0],400,100,"CoCompiler",400,350,"white"));
 				compilers[compiler_count].draw();
 				compiler_count += 1;
+			}
+		}
+
+		if (cmd == 'closeForm'){
+			if (params[0].indexOf('terminal') != -1){
+				var index = params[0].split('-')[1];
+				$('#' + params[0]).remove();
+				terminals.pop(index);
+				terminal_count -= 1;
+			}
+
+			if (params[0].indexOf('compiler') != -1){
+				var index = params[0].split('-')[1];
+				$('#' + params[0]).remove();
+				compilers.pop(index);
+				compiler_count -= 1;
 			}
 		}
 	}
