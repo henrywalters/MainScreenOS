@@ -6,7 +6,7 @@ $user_id = $_SESSION['user_id'];
 $port = $_SESSION['port'];
 $host = $_SESSION['host'];
 
-include '../secure.php';
+//include '../secure.php';
 include '../cursor.php';
 include 'speedTest.php';
 
@@ -32,7 +32,7 @@ include 'speedTest.php';
 
 <footer>
 	<div id='taskbar'>
-		<div id='ProgramMenuIcon' class='togglable' style='height:100%;width:50px;background-color:gray' onclick='toggleProgramMenu()'></div>
+		<div id='ProgramMenuIcon' class='togglable' style='height:100%;width:50px;background-color:gray' onclick="toggleProgramMenu()"></div>
 	</div>
 </footer>
 
@@ -59,8 +59,8 @@ var last_move = 0;
 
 $(document).ready(function(){
 	$(document).mousemove(function(event){
-		m_x = event.pageX;
-		m_y = event.pageY;
+		m_x = event.pageX + 1;
+		m_y = event.pageY + 1;
 		mouse.move(m_x,m_y);
 		//mouse.draw();
 		var delta = now() - last_move;
@@ -85,8 +85,10 @@ function toggleProgramMenu(){
 	var menu = $('#ProgramMenu');
 	if (menu.css('display') == 'none'){
 		menu.css('display','block');
+		$.get('socketFunctions/open',{'object_id':'ProgramMenu'});
 	} else {
 		menu.css('display','none');
+		$.get('socketFunctions/close',{'object_id':'ProgramMenu'});
 	}
 }
 
@@ -123,6 +125,8 @@ function parseCmd(cmd){
 
 <style>
 
+
+* { cursor: none; }
 
 #OS{
 	height:95%;
