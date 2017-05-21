@@ -30,4 +30,8 @@ function TextInput(container,id,style,label, label_style){
 
 	$('#'+this.container).append(this.html);
 }
+
+function TextArea(container,id,style){
+	
+}
 </script>
