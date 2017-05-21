@@ -77,11 +77,11 @@ $(document).ready(function(){
 		});
 	},ms);
 
-	//window.setInterval(function(){
-		//$.get('socketFunctions/readCommands.php',function(data){
-		//	parseCmd(data);
-		//});
-	//},ms)
+	window.setInterval(function(){
+		$.get('socketFunctions/readCommands.php',function(data){
+			parseCmd(data);
+		});
+	},ms)
 
 });
 
@@ -89,10 +89,10 @@ function toggleProgramMenu(){
 	console.log("clicked");
 	var menu = $('#ProgramMenu');
 	if (menu.css('display') == 'none'){
-		menu.css('display','block');
+		//menu.css('display','block');
 		$.get('socketFunctions/open',{'object_id':'ProgramMenu'});
 	} else {
-		menu.css('display','none');
+		//menu.css('display','none');
 		$.get('socketFunctions/close',{'object_id':'ProgramMenu'});
 	}
 }
@@ -123,7 +123,13 @@ function parseCmd(cmd){
 			}
 		}
 
-		console.log(cmd);
+		if (cmd == "open"){
+			console.log(cmds);
+		} 
+
+		if (cmd == "close"){
+			console.log(cmds);
+		}
 	}
 }
 
