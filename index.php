@@ -102,6 +102,14 @@ function connect(){
 			$('#error').show();
 		}
 	})
-}
 
+};
+$(document).ready(function(){
+		$("#port").keyup(function(event){
+			console.log(event.keyCode);
+			if(event.keyCode == 13) {
+				connect();
+			}
+		});
+	});
 </script>
