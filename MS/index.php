@@ -49,7 +49,7 @@ var client_mice = {};
 var m_x = 0;
 var m_y = 0;
 
-var fps = 60;
+var fps = 30;
 var ms = Math.ceil(1000/fps);
 console.log(ms);
 
@@ -75,11 +75,13 @@ $(document).ready(function(){
 			parseCmd(data);
 
 		});
-		$.get('socketFunctions/readCommands.php',function(data){
-			parseCmd(data);
-		});
 	},ms);
 
+	//window.setInterval(function(){
+		//$.get('socketFunctions/readCommands.php',function(data){
+		//	parseCmd(data);
+		//});
+	//},ms)
 
 });
 
