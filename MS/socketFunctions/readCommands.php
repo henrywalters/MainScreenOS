@@ -1,13 +1,13 @@
 <?php
+
 session_start();
 $PORT = $_SESSION['port']; //the port on which we are connecting to the "remote" machine
 $HOST='10.0.0.21';
 //$HOST='10.0.0.18';
 //$HOST = "141.217.175.129";//$_GET['host']; //the ip of the remote machine (in this case it's the same machine)
 $user_id = $_SESSION['user_id'];
-$object = $_GET['object_id'];
-$text = "open:{$object}:{$user_id}:null";
 
+$text = "readCommands:null:{$user_id}:null";
 
 
 $sock = socket_create(AF_INET, SOCK_STREAM, 0) //Creating a TCP socket
@@ -23,4 +23,6 @@ $reply = socket_read($sock, 10000, PHP_NORMAL_READ) //Reading the reply from soc
 		or die("error: failed to read from socket\n");
 
 echo $reply;
+
+
 ?>
