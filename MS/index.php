@@ -6,7 +6,7 @@ $user_id = $_SESSION['user_id'];
 $port = $_SESSION['port'];
 $host = $_SESSION['host'];
 
-//include '../secure.php';
+include '../secure.php';
 include '../cursor.php';
 include 'speedTest.php';
 
