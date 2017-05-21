@@ -96,6 +96,10 @@ $(document).ready(function(){
 		});
 	},ms)
 
+
+	$('.container').click(function(event){
+		console.log(event);
+	});
 });
 
 function toggleProgramMenu(){
@@ -120,6 +124,9 @@ function openCoCompiler(){
 	
 }
 
+function closeForm(form_id){
+	console.log("workin");
+}
 
 function parseCmd(cmd){
 	cmds = cmd.split("$");
