@@ -162,6 +162,8 @@ function parseCmd(cmd){
 				console.log(cmds);
 				terminals.push(new Form(params[0],300,300,"Terminal", 150,350,'green'));
 				terminals[terminal_count].draw();
+				new TextInput(params[0], params[0] + '-input', 'width:80%;background-color:green;border:0px solid black;position:relative','Shared:~/','position:relative;top:80px');
+				$('#' + params[0] + "-input").focus();
 				terminal_count += 1;
 			}
 
@@ -228,5 +230,8 @@ function parseCmd(cmd){
 .hoverIcon:hover{
 	background-color:#2d2d2d;
 }
+
+input:focus {outline:0;}
+
 
 </style>

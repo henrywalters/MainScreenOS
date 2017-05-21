@@ -19,4 +19,15 @@ Form.prototype.draw = function(){
 	$('.container').draggable();
 }
 
+
+function TextInput(container,id,style,label, label_style){
+	this.container = container;
+	this.id = id;
+	this.style = style;
+
+
+	this.html = "<label for='" + this.id + "' style='" + label_style +"'>" + label + "&nbsp;<input class='textInput' type='text' id='" + this.id + "' style='" + this.style + "'>";
+
+	$('#'+this.container).append(this.html);
+}
 </script>
