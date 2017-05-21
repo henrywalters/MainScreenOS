@@ -9,6 +9,7 @@ $host = $_SESSION['host'];
 include '../secure.php';
 include '../cursor.php';
 include 'speedTest.php';
+include '../form.php';
 
 
 ?>
@@ -20,12 +21,14 @@ include 'speedTest.php';
   src="https://code.jquery.com/jquery-3.2.1.js"
   integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
   crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 
 <body>
 	<div id='OS'>
 		<div id='ProgramMenu'>
-
+			<div class='ProgramMenuItem' id='ProgramMenuTerminal' onclick='openTerminal()'><h3>Terminal</h3></div>
+			<div class='ProgramMenuItem' id='ProgramMenuTerminal' onclick='openCoCompiler()'><h3>CoCompile</h3></div>
 		</div>
 	</div>
 </body>
@@ -51,6 +54,16 @@ var m_y = 0;
 
 var fps = 30;
 var ms = Math.ceil(1000/fps);
+
+var terminals = [];
+
+var compilers = [];
+
+var terminal_count = 0;
+
+var compiler_count = 0;
+
+
 console.log(ms);
 
 var mouse = new Mouse('mouse-<?php echo $user_id; ?>',0,0,'black');
@@ -97,6 +110,16 @@ function toggleProgramMenu(){
 	}
 }
 
+function openTerminal(){
+	$.get('socketFunctions/openForm',{'form_id':'terminal-' + terminal_count});
+	
+}
+
+function openCoCompiler(){
+	$.get('socketFunctions/openForm',{'form_id':'compiler-' + compiler_count});
+	
+}
+
 
 function parseCmd(cmd){
 	cmds = cmd.split("$");
@@ -130,6 +153,20 @@ function parseCmd(cmd){
 		if (cmd == "close"){
 			$('#' + object).hide();
 		}
+
+		if (cmd == 'openForm'){
+			if (params[0].indexOf('terminal') != -1){
+				terminals.push(new Form(params[0],300,300,"Terminal", 150,350,'green'));
+				terminals[terminal_count].draw();
+				terminal_count += 1;
+			}
+
+			if (params[0].indexOf('compiler') != -1){
+				compilers.push(new Form(params[0],300,300,"CoCompiler",400,350,"white"));
+				compilers[compiler_count].draw();
+				compiler_count += 1;
+			}
+		}
 	}
 }
 
@@ -150,9 +187,16 @@ function parseCmd(cmd){
 #ProgramMenu{
 	bottom:0;
 	border:1px solid black;
-	height:300px;
+	height:auto;
 	width:200px;
 	position:absolute;
+}
+
+.ProgramMenuItem{
+	width:100%;
+	border-top:1px solid black;
+	border-bottom:1px solid black;
+	text-align:center;
 }
 
 #taskbar{

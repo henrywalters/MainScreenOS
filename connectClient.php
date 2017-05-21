@@ -2,8 +2,11 @@
 
 session_start();
 
+include 'settings.php';
+$HOST = $def_host;
+
 $PORT = $_GET['port']; //the port on which we are connecting to the "remote" machine
-$HOST = '10.0.0.18';
+
 //$HOST = '10.0.0.18';
 //$HOST = "141.217.175.129";//$_GET['host']; //the ip of the remote machine (in this case it's the same machine)
 $user_id = $_GET['user_id'];
